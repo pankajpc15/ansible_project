@@ -1,0 +1,30 @@
+- name: Docker Installation on Ubuntu and Amazon Linux
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Install Docker on Ubuntu
+      apt:
+        name: docker.io
+        state: latest
+      when: ansible_distribution == 'Ubuntu'
+
+    - name: Install Docker on Amazon Linux
+      yum:
+        name: docker
+        state: latest
+      when: ansible_distribution == 'Amazon'
+
+    - name: Enable and start Docker service on Ubuntu
+      service:
+        name: docker
+        state: started
+        enabled: yes
+      when: ansible_distribution == 'Ubuntu'
+
+    - name: Enable and start Docker service on Amazon Linux
+      service:
+        name: docker
+        state: started
+        enabled: yes
+      when: ansible_distribution == 'Amazon'
