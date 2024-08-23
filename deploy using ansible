@@ -1,0 +1,66 @@
+ playbook> cat install_nginx.yml
+-
+
+  name: Install Nginx using roles
+  hosts: servers
+  become: true
+  roles:
+    - nginx
+=============
+
+
+task > cat main.yml
+---
+# tasks file for nginx
+- name: Install Nginx
+  ansible.builtin.package:
+    name: nginx
+    state: present
+
+- name: Ensure Nginx is running
+  ansible.builtin.service:
+    name: nginx
+    state: started
+    enabled: yes
+- name: Deploy index.html
+  ansible.builtin.copy:
+    src: index.html
+    dest: /var/www/html/index.html
+
+========================
+file> index.html
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome Pankaj Chaudhari</title>
+</head>
+<body style="font-family: Arial, sans-serif; background-color: #f0f0f5; color: #333; text-align: center; padding: 50px;">
+
+    <!-- Container for the main content -->
+    <div style="background-color: #fff; padding: 40px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); max-width: 600px; margin: 0 auto;">
+
+        <!-- Welcome message -->
+        <h1 style="color: #2c3e50; font-size: 36px; margin-bottom: 10px;">Welcome</h1>
+        <h2 style="color: #3498db; font-size: 28px; margin-bottom: 30px;">Pankaj Chaudhari</h2>
+
+        <!-- Role description -->
+        <p style="font-size: 18px; color: #7f8c8d;">DevOps Engineer</p>
+
+        <!-- Decorative divider -->
+        <hr style="border: 0; height: 2px; background-color: #3498db; width: 50%; margin: 20px auto;">
+
+        <!-- Additional message -->
+        <p style="font-size: 16px; color: #34495e; margin-top: 20px;">
+            Empowering software development and operations through automation, continuous integration, and cutting-edge tools.
+        </p>
+
+        <!-- Button to learn more -->
+        <a href="#" style="display: inline-block; margin-top: 30px; padding: 10px 20px; background-color: #e74c3c; color: #fff; text-decoration: none; border-radius: 5px; font-size: 16px;">
+            Learn More
+        </a>
+    </div>
+</body>
+</html>
